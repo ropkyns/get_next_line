@@ -6,7 +6,7 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 18:46:20 by paulmart          #+#    #+#             */
-/*   Updated: 2023/12/11 17:02:19 by paulmart         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:48:30 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,24 @@ char	*ft_strchr( const char *s, int c)
 		i++;
 	}
 	return (NULL);
+}
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	int					i;
+	unsigned char		*destination;
+	const unsigned char	*source;
+
+	i = 0;
+	destination = (unsigned char *)dest;
+	source = (const unsigned char *)src;
+	if (dest == NULL && src == NULL)
+		return (NULL);
+	while (n > 0)
+	{
+		destination[i] = source[i];
+		i++;
+		n--;
+	}
+	return (destination);
 }
