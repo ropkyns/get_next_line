@@ -6,7 +6,7 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 18:45:39 by paulmart          #+#    #+#             */
-/*   Updated: 2023/12/13 14:49:13 by paulmart         ###   ########.fr       */
+/*   Updated: 2023/12/14 17:35:28 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,19 @@ char	*get_line(int fd, char *stock)
 	int		nb_line;
 
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf || BUFFER_SIZE <= 0)
+	if (!buf)
 		return (NULL);
-	while (ft_strchr(stock, '\n') == NULL || nb_line > 0)
+	nb_line = 1;
+	while (ft_strchr(stock, '\n') == 0 && nb_line != 0)
 	{
 		nb_line = read(fd, buf, BUFFER_SIZE);
+		if (nb_line == -1)
+		{
+			free(buf);
+			free(stock);
+			return (NULL);
+		}
+		buf[nb_line] = '\0';
 		if (!stock)
 			stock = ft_strdup(buf);
 		else
@@ -37,22 +45,28 @@ char	*get_line(int fd, char *stock)
 char	*putline(char *stock)
 {
 	int			len_line;
-	int			i;
 	char		*next_line;
 
-	next_line = malloc(sizeof(char) * (ft_strlen(stock) + 2));
+	len_line = 0;
+	if (!(*stock))
+		return (NULL);
+	while (stock[len_line] != '\n' && stock[len_line])
+		len_line++;
+	next_line = malloc(sizeof(char) * (len_line + 2));
 	if (!next_line)
 		return (NULL);
 	len_line = 0;
-	while (stock[len_line] != '\n')
-		len_line++;
-	while (i < len_line)
+	while (stock[len_line] != '\n' && stock[len_line])
 	{
-		next_line[i] = stock[i];
-		i++;
+		next_line[len_line] = stock[len_line];
+		len_line++;
 	}
-	next_line[i] = '\n';
-	next_line[i + 1] = '\0';
+	if (stock[len_line] == '\n')
+	{
+		next_line[len_line] = stock[len_line];
+		len_line++;
+	}
+	next_line[len_line] = '\0';
 	return (next_line);
 }
 
@@ -62,17 +76,23 @@ char	*del_for_next_line(char *stock)
 	size_t	i;
 	size_t	j;
 
-	tmp = NULL;
 	i = 0;
-	while (stock[i] != '\0')
+	while (stock[i] != '\0' && stock[i] != '\n')
 		i++;
-	j = 0;
-	while (i <= ft_strlen(stock))
+	if (!stock[i])
 	{
-		tmp[j] = stock[i];
-		i++;
-		j++;
+		free(stock);
+		return (NULL);
 	}
+	i++;
+	tmp = malloc(sizeof(char) * (ft_strlen(stock) - i + 1));
+	if (!tmp)
+		return (NULL);
+	j = 0;
+	while (stock[i])
+		tmp[j++] = stock[i++];
+	tmp[j] = '\0';
+	free(stock);
 	return (tmp);
 }
 
@@ -81,7 +101,7 @@ char	*get_next_line(int fd)
 	static char	*stock;
 	char		*next_line;
 
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	stock = get_line(fd, stock);
 	if (!stock)

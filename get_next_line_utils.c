@@ -6,20 +6,33 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 18:46:20 by paulmart          #+#    #+#             */
-/*   Updated: 2023/12/13 14:48:30 by paulmart         ###   ########.fr       */
+/*   Updated: 2023/12/14 18:12:33 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+int	ft_strchr(const char *s, int c)
+{
+	if (!s)
+		return (0);
+	while (*s)
+	{
+		if (*s == (char)c)
+			return (1);
+		s++;
+	}
+	return (0);
+}
+
+char	*ft_strjoin(char *s1, char const *s2)
 {
 	int		len;
 	char	*concat;
 	int		i;
 	int		j;
 
-	len = ft_strlen((char *)s1) + ft_strlen((char *)s2);
+	len = ft_strlen(s1) + ft_strlen((char *)s2);
 	concat = malloc(sizeof(char) * (len + 1));
 	if (concat == NULL)
 		return (NULL);
@@ -37,6 +50,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	concat[i] = '\0';
+	free(s1);
 	return (concat);
 }
 
@@ -62,22 +76,6 @@ char	*ft_strdup(const char *s)
 	ft_memcpy(dup, (char *)s, len);
 	dup[len] = '\0';
 	return (dup);
-}
-
-char	*ft_strchr( const char *s, int c)
-{
-	char	*dup;
-	size_t	i;
-
-	dup = (char *)s;
-	i = 0;
-	while (i < ft_strlen(dup) + 1)
-	{
-		if (*(dup + i) == (char)c)
-			return (dup + i);
-		i++;
-	}
-	return (NULL);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
