@@ -6,11 +6,11 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 16:03:08 by paulmart          #+#    #+#             */
-/*   Updated: 2023/12/17 16:15:20 by paulmart         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:21:02 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_strchr(const char *s, int c)
 {

@@ -6,11 +6,11 @@
 /*   By: paulmart <paulmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 15:58:56 by paulmart          #+#    #+#             */
-/*   Updated: 2023/12/17 16:17:31 by paulmart         ###   ########.fr       */
+/*   Updated: 2023/12/18 17:21:32 by paulmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd);
 
@@ -98,7 +98,7 @@ char	*del_for_next_line(char *stock)
 
 char	*get_next_line(int fd)
 {
-	static char	*stock[4242];
+	static char	*stock[1024];
 	char		*next_line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
